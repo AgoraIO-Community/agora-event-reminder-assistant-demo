@@ -2,6 +2,8 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
+本文仅翻译文档；应用界面和语音对话仍使用英语。请使用下方英文示例试说，中文仅供理解。
+
 基于 Agora 和 Next.js 的活动提醒语音 AI 演示。角色扮演虚构网络研讨会的提醒对话，询问议程和时间，并讨论参加意向。
 
 **[在 Agora Recipes 探索更多语音 AI 演示 →](https://recipes.agora.io/)**
@@ -125,7 +127,7 @@ Next.js 签发浏览器 token，并在启动 Agora Agent 时提供场景指令�
 
 ### 提醒开始后可以说什么？
 
-同意听取、询问日程或议程，或表达参加意向。例如：“好的，请简要提醒我”，然后问“加州时间是几点？”通话中可以拒绝或修改意向。
+同意听取、询问日程或议程，或表达参加意向。例如：“Yes, please give me the short reminder”（意为“好的，请简要提醒我”），然后问“What time is it in California?”（意为“加州时间是几点？”）通话中可以拒绝或修改意向。
 
 ### 为什么新通话中的活动日期会变化？
 
