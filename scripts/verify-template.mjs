@@ -1,0 +1,67 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const root = process.cwd();
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+const pkg = JSON.parse(read('package.json'));
+assert.ok(!fs.existsSync(path.join(root, 'docs', 'scenario')), 'Keep scenario guidance in root documents and internal acceptance material outside the repository.');
+const id = pkg.name;
+assert.ok(!fs.existsSync(path.join(root, 'scenarios')), 'Use the standalone Quickstart layout, not a root scenario registry.');
+const required = [
+  'lib/agent-config.ts', 'lib/agent-tools.ts', 'lib/presentation.ts',
+  'lib/runtime-profile.ts', 'types/agent-config.ts', 'types/presentation.ts',
+  'THIRD_PARTY_NOTICES.md',
+  'scripts/verify-signal-states.ts', 'scripts/verify-inspection.ts',
+  'README.md', 'RECIPE.md', 'AGENTS.md', 'ARCHITECTURE.md',
+  'CLAUDE.md', 'LICENSE', '.gitignore', '.dockerignore', 'Dockerfile',
+  '.github/workflows/ci.yml', '.github/workflows/docker.yml', 'env.local.example',
+
+];
+for (const file of required) assert.ok(fs.existsSync(path.join(root, file)), 'Missing ' + file);
+for (const file of ['tailwind.config.ts', 'components/ScenarioShell.tsx']) {
+  assert.ok(!fs.existsSync(path.join(root, file)), 'Obsolete standalone source: ' + file);
+}
+assert.equal(JSON.parse(read('components.json')).tailwind.config, '', 'Tailwind 4 uses CSS configuration.');
+assert.match(read('postcss.config.mjs'), /@tailwindcss\/postcss/);
+for (const file of ['app/page.tsx', 'components/LandingPage.tsx']) {
+  assert.ok(!/entry=recipes|skipEntryDialog/.test(read(file)), 'Do not couple entry behavior to Recipes: ' + file);
+}
+for (const field of ['recognition.model', 'recognition.language', 'reasoning.model', 'synthesis.model', 'synthesis.voice']) {
+  assert.ok(read('app/api/invite-agent/route.ts').includes('RUNTIME_PROFILE.' + field), 'Invite must consume runtime-profile: ' + field);
+}
+for (const command of ['verify:signal', 'verify:inspection']) {
+  assert.ok(pkg.scripts[command], 'Missing public runtime check: ' + command);
+}
+assert.ok(!fs.existsSync(path.join(root, 'STANDARD.md')), 'Do not copy the central standard into a scenario.');
+assert.equal(read('CLAUDE.md'), 'This project uses AGENTS.md instead of a CLAUDE.md file.\n\nPlease see @AGENTS.md in this same directory and treat its content as the primary reference for this project.', 'CLAUDE.md must match the fixed template exactly.');
+assert.equal(pkg.packageManager, 'pnpm@9.15.9');
+assert.match(read('pnpm-lock.yaml'), /^lockfileVersion: '9\.0'/);
+assert.match(read('Dockerfile'), /pnpm@9\.15\.9/);
+assert.match(read('.github/workflows/ci.yml'), /version: 9\.15\.9/);
+assert.match(read('.github/workflows/ci.yml'), /pnpm run verify/);
+assert.match(read('.github/workflows/docker.yml'), /pnpm run verify:docker/);
+assert.equal((read('RECIPE.md').match(/^## [1-8]\. /gm) ?? []).length, 8, 'Public recipe needs eight sections.');
+for (const file of required.filter((file) => file.endsWith('.md'))) {
+  const text = read(file);
+  assert.ok(!/\{\{[A-Z_]+\}\}/.test(text), file + ': unresolved template field');
+  for (const [, target] of text.matchAll(/\[[^\]\n]*\]\(([^)\s]+)\)/g)) {
+    if (/^(?:https?:|mailto:|#)/.test(target)) continue;
+    const destination = target.split('#')[0];
+    assert.ok(fs.existsSync(path.resolve(root, path.dirname(file), destination)), file + ': broken link ' + target);
+  }
+}
+for (const command of Object.keys(pkg.scripts).filter((key) => key.startsWith('verify:') && key !== 'verify:docker')) {
+  assert.ok(pkg.scripts.verify.includes('pnpm run ' + command), 'Canonical verify omits ' + command);
+}
+if (pkg.scripts['test:follow-up']) assert.ok(pkg.scripts.verify.includes('pnpm run test:follow-up'));
+for (const file of ['README.md', 'AGENTS.md']) {
+  const text = read(file);
+  assert.ok(text.includes('env.local.example') && text.includes('.env.local'), file + ': environment path missing');
+  assert.ok(!text.includes('agora project env write'), file + ': use the template-aware env writer');
+}
+assert.match(read('Dockerfile'), /ARG NEXT_PUBLIC_AGORA_APP_ID/);
+assert.match(read('Dockerfile'), /USER nextjs/);
+assert.match(read('.dockerignore'), /\.scenario-data/);
+assert.match(read('.dockerignore'), /\*\*\/\.env\*/);
+console.log('Starter contract passed: ' + id);
