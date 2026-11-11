@@ -65,3 +65,8 @@ assert.match(read('Dockerfile'), /USER nextjs/);
 assert.match(read('.dockerignore'), /\.scenario-data/);
 assert.match(read('.dockerignore'), /\*\*\/\.env\*/);
 console.log('Starter contract passed: ' + id);
+
+for (const file of ['app/globals.css', 'styles/agent-ui/recipes.css', 'styles/agent-ui/tokens.css']) {
+  assert.ok(!/MiSans|@font-face|url\([^)]*\.(?:woff2?|ttf|otf)/i.test(read(file)), 'Use system fonts without bundled font references: ' + file);
+}
+assert.ok(!fs.existsSync(path.join(root, 'public/fonts')), 'Do not ship bundled font assets.');
