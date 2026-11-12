@@ -46,6 +46,8 @@ The start action requests a combined RTC/RTM token and starts the managed Agent 
 
 See [current capabilities](README.md#what-you-can-do) for the conversation boundary and [verification guidance](AGENTS.md#verification-and-maintenance) for checks.
 
+Each session ends automatically after 10 minutes; choose Start again to continue.
+
 ## 7. Customize for Your Business
 
 Edit lib/agent-config.ts for the role, workflow, greeting and static public reference material. Edit lib/presentation.ts for the scenario entry and visible identity. Keep lib/runtime-profile.ts aligned with the invite route. Adding business integrations is outside this first version.

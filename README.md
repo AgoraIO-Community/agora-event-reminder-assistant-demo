@@ -4,6 +4,8 @@
 
 A voice AI event reminder demo built with Agora and Next.js. Role-play a reminder for a fictional webinar, ask about its agenda and timing, and discuss whether you plan to attend.
 
+**[Try the live demo →](https://agora-event-reminder-assistant-demo.vercel.app)**
+
 **[Explore more voice AI demos on Agora Recipes →](https://recipes.agora.io/)**
 
 [![Agora](https://img.shields.io/badge/Voice_AI-Agora-099DFD)](https://www.agora.io/en/products/conversational-ai-engine/)
@@ -73,6 +75,8 @@ pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000), choose **Start event reminder**, and allow microphone access. Ask the assistant to summarize the conversation if needed, then click the hang-up button (**End session**).
+
+Each session ends automatically after 10 minutes; choose Start again to continue.
 
 <a id="deployment"></a>
 
