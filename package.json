@@ -36,7 +36,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.454.0",
-    "next": "^16.2.6",
+    "next": "^16.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.6.0",
@@ -50,7 +50,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^9.39.4",
-    "eslint-config-next": "^16.2.2",
+    "eslint-config-next": "^16.4.6",
     "postcss": "^8.5.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.20.6",
@@ -66,5 +66,10 @@
   "homepage": "https://github.com/AgoraIO-Community/agora-event-reminder-assistant-demo#readme",
   "bugs": {
     "url": "https://github.com/AgoraIO-Community/agora-event-reminder-assistant-demo/issues"
+  },
+  "pnpm": {
+    "overrides": {
+      "@typescript-eslint/typescript-estree>minimatch": "11.0.1"
+    }
   }
 }
