@@ -113,3 +113,7 @@ Use the installed Helvetica Neue/sans-serif fallback and keep the shared font to
 LandingPage owns the ten-minute browser deadline and reuses the guarded stop flow. Preserve wall-time checks on focus/visibility, five-second stop retries, cleanup, transcript retention and reset on restart. A failed stop must keep the session open with retry feedback. This is not a server-side usage cap.
 
 The header countdown sits immediately before connection status in 12px muted text. Highlight the last minute with light gray (#D4D4D8); announce only the final-minute and expiry notices to screen readers.
+
+## npm scaffold releases
+
+The application remains private. `pnpm run npm:build` creates the separate public creator package; `pnpm run npm:test` tests the installed tarball offline. Packaging and the CLI live in scripts/npm and require no external workspace. See [release setup](docs/npm-release.md) for exact tag validation, npm Trusted Publishing and Vercel Git integration. Do not publish or change remote configuration without separate authorization.
