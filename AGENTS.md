@@ -95,7 +95,7 @@ Local implementation does not authorize a commit. A commit does not authorize a 
 
 ## Usage FAQ contract
 
-Keep FAQ in the upper-right header beside Inspector and Build. `components/ScenarioFaq.tsx` and `styles/faq.css` follow the Voice Shopping drawer pattern: closed on entry, right-side on desktop, full-width on mobile, internally scrollable, and keyboard accessible. Opening FAQ must not start a session or request microphone access. Keep answers consistent with this scenario’s conversation-only scope. Preserve the coach Phrasebook where present.
+Keep FAQ in the upper-right header beside Inspector. Place Build Now beside the start action, in the active voice dock and beside Start again after the session. `components/ScenarioFaq.tsx` and `styles/faq.css` follow the Voice Shopping drawer pattern: closed on entry, right-side on desktop, full-width on mobile, internally scrollable, and keyboard accessible. Opening FAQ must not start a session or request microphone access. Keep answers consistent with this scenario’s conversation-only scope. Preserve the coach Phrasebook where present.
 
 
 ## Phase-one conversation update — 2026-11-08
